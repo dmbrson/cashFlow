@@ -3,5 +3,41 @@
 {% block title %}Список записей{% endblock %}
 
 {% block content %}
-    <p>123</p>
+    <h1 class="mb-4">Список записей</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Тип</th>
+            <th>Категория</th>
+            <th>Подкатегория</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if records %}
+            {% for record in records %}
+            <tr>
+                <td>{{ record.created_at }}</td>
+                <td>{{ record.status.name }}</td>
+                <td>{{ record.type.name }}</td>
+                <td>{{ record.category.name }}</td>
+                <td>
+                    {% if record.subcategory %}
+                        {{ record.subcategory.name }}
+                    {% else %}
+                         -
+                    {% endif %}
+                </td>
+                <td>{{ record.amount }}</td>
+                <td>{{ record.comment }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <p>У вас нет записей!</p>
+        {% endif %}
+    </tbody>
+</table>
 {% endblock %}
