@@ -6,10 +6,84 @@
     <h1 class="mb-4">Форма записи</h1>
     <form method="post" class="card p-4 shadow-sm">
         {% csrf_token %}
-        {{ form }}
+        <div class="mb-3">
+            <label for="id_status" class="form-label">Статус</label>
+            {{ form.status }}
+        </div>
+        <div class="mb-3">
+            <label for="id_type" class="form-label">Тип</label>
+            {{ form.type }}
+        </div>
+        <div class="mb-3">
+            <label for="id_category" class="form-label">Категория</label>
+            {{ form.category }}
+        </div>
+        <div class="mb-3">
+            <label for="id_subcategory" class="form-label">Подкатегория</label>
+            {{ form.subcategory }}
+        </div>
+        <div class="mb-3">
+            <label for="id_amount" class="form-label">Сумма</label>
+            {{ form.amount }}
+        </div>
+        <div class="mb-3">
+            <label for="id_comment" class="form-label">Комментарий</label>
+            {{ form.comment }}
+        </div>
+        <div class="mb-3">
+            <label for="id_created_at" class="form-label">Дата</label>
+            {{ form.created_at }}
+        </div>
         <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-primary">Сохранить</button>
             <a href="{% url 'record_list' %}" class="btn btn-secondary">Отмена</a>
         </div>
     </form>
+
+    <script>
+    // Функция для активации подкатегории и обновления списка
+    function updateSubcategories(categoryId, selectedSubcategoryId = null) {
+        var subcategoryField = document.getElementById('id_subcategory');
+
+        if (categoryId) {
+            subcategoryField.disabled = false;
+
+            // Отправляем AJAX запрос для получения подкатегорий
+            fetch("{% url 'get_subcategories' %}?category_id=" + categoryId)
+                .then(response => response.json())
+                .then(data => {
+                    subcategoryField.innerHTML = '<option value="">---------</option>';
+                    // Добавляем новые подкатегории
+                    data.subcategories.forEach(function(subcategory) {
+                        var option = document.createElement('option');
+                        option.value = subcategory.id;
+                        option.textContent = subcategory.name;
+                        subcategoryField.appendChild(option);
+                    });
+
+                    // Если подкатегория была выбрана ранее, восстанавливаем выбор
+                    if (selectedSubcategoryId) {
+                        subcategoryField.value = selectedSubcategoryId;
+                    }
+                });
+        } else {
+            subcategoryField.disabled = true;
+            subcategoryField.innerHTML = '<option value="">Выберите категорию</option>';
+        }
+    }
+
+    // Когда изменяется категория
+    document.getElementById('id_category').addEventListener('change', function() {
+        var categoryId = this.value;
+        var selectedSubcategoryId = document.getElementById('id_subcategory').value;
+        updateSubcategories(categoryId, selectedSubcategoryId);
+    });
+
+    // Инициализация на загрузку страницы
+    document.addEventListener('DOMContentLoaded', function () {
+        var categoryId = document.getElementById('id_category').value;
+        var selectedSubcategoryId = document.getElementById('id_subcategory').value;
+        updateSubcategories(categoryId, selectedSubcategoryId);
+    });
+    </script>
 {% endblock %}

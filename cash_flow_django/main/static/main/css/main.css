@@ -16,3 +16,6 @@ form {
     width: 500px;
     margin-top: 30px;
 }
+textarea.form-control {
+    height: 50px;
+}
