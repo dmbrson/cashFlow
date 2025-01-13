@@ -55,7 +55,7 @@ class CashFlowRecord(models.Model):
     comment = models.TextField('Комментарий', blank=True, null=True)
 
     def __str__(self):
-        return f"{self.created_at} {self.type.name} {self.amount}"
+        return f"{self.created_at}, {self.type.name}, {self.category.name}, {self.subcategory.name}, {self.amount}"
 
     class Meta:
         verbose_name = 'Запись ДДС'
