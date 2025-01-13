@@ -1,0 +1,18 @@
+body{
+    background: azure;
+}
+.navbar-brand i {
+    margin-right: 8px;
+    color: azure;
+}
+.nav-item:hover .nav-link {
+    color: azure;
+    text-decoration: none;
+    transform: scale(1.05);
+    transition: .3s;
+}
+
+form {
+    width: 500px;
+    margin-top: 30px;
+}
