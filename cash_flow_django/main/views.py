@@ -1,13 +1,37 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from main.forms import CashFlowRecordForm
-from main.models import CashFlowRecord, SubCategory, Category
 from django.http import JsonResponse
+from main.forms import CashFlowRecordForm, RecordFilterForm
+from main.models import CashFlowRecord, SubCategory, Category
 
 #Главная страница: список записей
 def record_list(request):
     records = CashFlowRecord.objects.all()
+    filter_form = RecordFilterForm(request.GET)
+
+    if filter_form.is_valid():
+        start_date = filter_form.cleaned_data.get('start_date')
+        end_date = filter_form.cleaned_data.get('end_date')
+        status = filter_form.cleaned_data.get('status')
+        type = filter_form.cleaned_data.get('type')
+        category = filter_form.cleaned_data.get('category')
+        subcategory = filter_form.cleaned_data.get('subcategory')
+
+        if start_date:
+            records = records.filter(created_at__gte=start_date)
+        if end_date:
+            records = records.filter(created_at__lte=end_date)
+        if status:
+            records = records.filter(status=status)
+        if type:
+            records = records.filter(type=type)
+        if category:
+            records = records.filter(category=category)
+        if subcategory:
+            records = records.filter(subcategory=subcategory)
+
     return render(request, 'main/record_list.html', {
         'records': records,
+        'filter_form': filter_form,
     })
 
 # Создание записи

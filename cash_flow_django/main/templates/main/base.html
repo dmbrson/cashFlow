@@ -34,5 +34,15 @@
         {% block content %}
         {% endblock %}
     </div>
+
+{% block extra_scripts %}
+    <script>
+        const urls = {
+            getCategories: "{% url 'get_categories' %}",
+            getSubcategories: "{% url 'get_subcategories' %}"
+        };
+    </script>
+    <script src="{% static 'main/js/form_script.js' %}"></script>
+{% endblock %}
 </body>
 </html>

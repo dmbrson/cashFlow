@@ -4,7 +4,22 @@
 
 {% block content %}
     <h1 class="mb-3">Список записей</h1>
-    <a href="{% url 'record_create' %}" class="btn btn-success mb-3"><i class="fas fa-plus-circle"></i>Добавить запись</a>
+        <div class="d-flex justify-content-between">
+        <a href="{% url 'record_create' %}" class="btn btn-success mb-3">
+            <i class="fas fa-plus-circle"></i> Добавить запись
+        </a>
+        {% if records %}
+            <button type="button" class="btn btn-info mb-3" id="filterToggle">Фильтр</button>
+        {% endif %}
+    </div>
+    <form method="get" class="mb-3" id="filterForm" style="display: none;">
+        <div class="row g-2 align-items-center">
+            {{ filter_form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Применить</button>
+        <a href="{% url 'record_list' %}" class="btn btn-secondary mb-3">Отменить фильтрацию</a>
+    </form>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -36,8 +51,20 @@
             </tr>
             {% endfor %}
         {% else %}
-            <p>У вас нет записей!</p>
+            <td colspan="8">У вас нет записей!</td>
         {% endif %}
     </tbody>
 </table>
+
+        <script>
+        // Скрипт для отображения/скрытия формы фильтрации
+        document.getElementById('filterToggle').addEventListener('click', function() {
+            var filterForm = document.getElementById('filterForm');
+            if (filterForm.style.display === 'none' || filterForm.style.display === '') {
+                filterForm.style.display = 'block';
+            } else {
+                filterForm.style.display = 'none';
+            }
+        });
+    </script>
 {% endblock %}
