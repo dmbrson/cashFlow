@@ -8,4 +8,5 @@ urlpatterns = [
     path('get_subcategories/', views.get_subcategories, name='get_subcategories'),
     path('get_categories/', views.get_categories, name='get_categories'),
     path('record/<int:pk>/update/', views.record_update, name='record_update'),
+    path('record/<int:pk>/delete/', views.record_delete, name='record_delete'),
 ]

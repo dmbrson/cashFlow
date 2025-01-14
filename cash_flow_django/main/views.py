@@ -48,3 +48,9 @@ def record_update(request, pk):
     return render(request, 'main/record_form.html', {
         'form': form,
     })
+def record_delete(request, pk):
+    record = get_object_or_404(CashFlowRecord, pk=pk)
+    if request.method == 'POST':
+        record.delete()
+        return redirect('record_list')
+    return render(request, 'main/record_confirm_delete.html', {'record': record})
