@@ -1,4 +1,5 @@
 {% extends "main/base.html" %}
+{% load static %}
 
 {% block title %}Список записей{% endblock %}
 
@@ -40,50 +41,12 @@
         </div>
     </form>
 
-    <script>
-    // Функция для активации подкатегории и обновления списка
-    function updateSubcategories(categoryId, selectedSubcategoryId = null) {
-        var subcategoryField = document.getElementById('id_subcategory');
+<script>
+    const urls = {
+        getCategories: "{% url 'get_categories' %}",
+        getSubcategories: "{% url 'get_subcategories' %}"
+    };
+</script>
+<script src="{% static 'main/js/form_script.js' %}"></script>
 
-        if (categoryId) {
-            subcategoryField.disabled = false;
-
-            // Отправляем AJAX запрос для получения подкатегорий
-            fetch("{% url 'get_subcategories' %}?category_id=" + categoryId)
-                .then(response => response.json())
-                .then(data => {
-                    subcategoryField.innerHTML = '<option value="">---------</option>';
-                    // Добавляем новые подкатегории
-                    data.subcategories.forEach(function(subcategory) {
-                        var option = document.createElement('option');
-                        option.value = subcategory.id;
-                        option.textContent = subcategory.name;
-                        subcategoryField.appendChild(option);
-                    });
-
-                    // Если подкатегория была выбрана ранее, восстанавливаем выбор
-                    if (selectedSubcategoryId) {
-                        subcategoryField.value = selectedSubcategoryId;
-                    }
-                });
-        } else {
-            subcategoryField.disabled = true;
-            subcategoryField.innerHTML = '<option value="">Выберите категорию</option>';
-        }
-    }
-
-    // Когда изменяется категория
-    document.getElementById('id_category').addEventListener('change', function() {
-        var categoryId = this.value;
-        var selectedSubcategoryId = document.getElementById('id_subcategory').value;
-        updateSubcategories(categoryId, selectedSubcategoryId);
-    });
-
-    // Инициализация на загрузку страницы
-    document.addEventListener('DOMContentLoaded', function () {
-        var categoryId = document.getElementById('id_category').value;
-        var selectedSubcategoryId = document.getElementById('id_subcategory').value;
-        updateSubcategories(categoryId, selectedSubcategoryId);
-    });
-    </script>
 {% endblock %}

@@ -10,31 +10,31 @@ class CashFlowRecordForm(forms.ModelForm):
         widgets = {
             'status': forms.Select(attrs={
                 'class': 'form-select',
-                'placeholder': 'Статус'
             }),
             'type': forms.Select(attrs={
                 'class': 'form-select',
-                'placeholder': 'Тип'
             }),
             'category': forms.Select(attrs={
                 'class': 'form-select',
-                'placeholder': 'Категория'
             }),
             'subcategory': forms.Select(attrs={
                 'class': 'form-select',
-                'placeholder': 'Подкатегория'
             }),
             'amount': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Сумма'
+                'placeholder': '1000'
             }),
             'comment': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Комментарий'
             }),
             'created_at': forms.DateInput(attrs={
                 'type': 'date',
                 'class': 'form-control',
-                'value': now().date()
-            }),
+            }, format='%Y-%m-%d'),
         }
+
+    # Метод устанавливающий текущую дату при создании новой формы
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.instance.pk:
+            self.fields['created_at'].initial = now().strftime('%Y-%m-%d')

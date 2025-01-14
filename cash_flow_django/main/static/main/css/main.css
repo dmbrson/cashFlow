@@ -1,9 +1,9 @@
 body{
     background: azure;
 }
-.navbar-brand i {
-    margin-right: 8px;
+i {
     color: azure;
+    margin-right: 8px;
 }
 .nav-item:hover .nav-link {
     color: azure;
