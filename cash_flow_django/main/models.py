@@ -32,10 +32,12 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        unique_together = ('name', 'type')
 
 class SubCategory(models.Model):
     name = models.CharField('Название', max_length=50)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="subcategories", verbose_name="Категория")
+    type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name="subcategories", verbose_name="Тип")
 
     def __str__(self):
         return self.name
@@ -43,6 +45,7 @@ class SubCategory(models.Model):
     class Meta:
         verbose_name = 'Подкатегория'
         verbose_name_plural = 'Подкатегории'
+        unique_together = ('name', 'category', 'type')
 
 
 class CashFlowRecord(models.Model):

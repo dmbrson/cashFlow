@@ -2,6 +2,7 @@ from django import forms
 from django.utils.timezone import now
 from .models import *
 
+# Форма для фильтрации
 class RecordFilterForm(forms.Form):
     start_date = forms.DateField(
         required=False,
@@ -55,6 +56,7 @@ class RecordFilterForm(forms.Form):
 
     )
 
+# Форма для модели
 class CashFlowRecordForm(forms.ModelForm):
     class Meta:
         model = CashFlowRecord

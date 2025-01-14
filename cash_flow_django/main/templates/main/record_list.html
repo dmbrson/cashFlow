@@ -4,14 +4,13 @@
 
 {% block content %}
     <h1 class="mb-3">Список записей</h1>
-        <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between">
         <a href="{% url 'record_create' %}" class="btn btn-success mb-3">
             <i class="fas fa-plus-circle"></i> Добавить запись
         </a>
-        {% if records %}
-            <button type="button" class="btn btn-info mb-3" id="filterToggle">Фильтр</button>
-        {% endif %}
+            <button type="button" class="btn btn-info mb-3" id="filterToggle"><i class="fa-solid fa-filter"></i>Фильтр</button>
     </div>
+
     <form method="get" class="mb-3" id="filterForm" style="display: none;">
         <div class="row g-2 align-items-center">
             {{ filter_form.as_p }}
@@ -20,43 +19,43 @@
         <a href="{% url 'record_list' %}" class="btn btn-secondary mb-3">Отменить фильтрацию</a>
     </form>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Дата</th>
-            <th>Статус</th>
-            <th>Тип</th>
-            <th>Категория</th>
-            <th>Подкатегория</th>
-            <th>Сумма</th>
-            <th>Комментарий</th>
-            <th>Действия</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% if records %}
-            {% for record in records %}
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>{{ record.created_at }}</td>
-                <td>{{ record.status.name }}</td>
-                <td>{{ record.type.name }}</td>
-                <td>{{ record.category.name }}</td>
-                <td>{{ record.subcategory.name }}</td>
-                <td>{{ record.amount }}</td>
-                <td>{{ record.comment }}</td>
-                <td>
-                    <a href="{% url 'record_update' record.pk %}" class="btn btn-warning btn-sm">Изменить</a>
-                    <a href="{% url 'record_delete' record.pk %}" class="btn btn-danger btn-sm">Удалить</a>
-                </td>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Тип</th>
+                <th>Категория</th>
+                <th>Подкатегория</th>
+                <th>Сумма</th>
+                <th>Комментарий</th>
+                <th>Действия</th>
             </tr>
-            {% endfor %}
-        {% else %}
-            <td colspan="8">У вас нет записей!</td>
-        {% endif %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% if records %}
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.created_at }}</td>
+                    <td>{{ record.status.name }}</td>
+                    <td>{{ record.type.name }}</td>
+                    <td>{{ record.category.name }}</td>
+                    <td>{{ record.subcategory.name }}</td>
+                    <td>{{ record.amount }}</td>
+                    <td>{{ record.comment }}</td>
+                    <td>
+                        <a href="{% url 'record_update' record.pk %}" class="btn btn-warning btn-sm">Изменить</a>
+                        <a href="{% url 'record_delete' record.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <td colspan="8">У вас нет записей!</td>
+            {% endif %}
+        </tbody>
+    </table>
 
-        <script>
+    <script>
         // Скрипт для отображения/скрытия формы фильтрации
         document.getElementById('filterToggle').addEventListener('click', function() {
             var filterForm = document.getElementById('filterForm');

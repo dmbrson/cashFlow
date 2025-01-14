@@ -65,9 +65,17 @@ function updateSubcategories(categoryId, selectedSubcategoryId = null) {
     }
 }
 
+// Блокировка подкатегории
 function DisabledSubCategory(subcategoryField) {
     subcategoryField.disabled = true;
-    subcategoryField.innerHTML = '<option value="">Выберите категорию</option>';
+    if (subcategoryField.tagName === 'SELECT') {
+        // Для поля Select модели CashFlowRecord
+        subcategoryField.innerHTML = '<option value="">Выберите категорию</option>';
+    } else if (subcategoryField.tagName === 'INPUT' && subcategoryField.type === 'text') {
+        // Для поля TextInput модели SubCategory
+        subcategoryField.value = '';
+        subcategoryField.placeholder = 'Выберите категорию';
+    }
 }
 
 // Когда изменяется категория

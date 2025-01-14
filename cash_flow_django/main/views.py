@@ -8,6 +8,7 @@ def record_list(request):
     records = CashFlowRecord.objects.all()
     filter_form = RecordFilterForm(request.GET)
 
+    # Фильтрация
     if filter_form.is_valid():
         start_date = filter_form.cleaned_data.get('start_date')
         end_date = filter_form.cleaned_data.get('end_date')
@@ -72,6 +73,8 @@ def record_update(request, pk):
     return render(request, 'main/record_form.html', {
         'form': form,
     })
+
+#Удаление записи
 def record_delete(request, pk):
     record = get_object_or_404(CashFlowRecord, pk=pk)
     if request.method == 'POST':

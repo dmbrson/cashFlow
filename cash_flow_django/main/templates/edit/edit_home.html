@@ -1,0 +1,14 @@
+{% extends "main/base.html" %}
+
+{% block title %}Управление справочниками{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Управление справочниками</h1>
+    <p>Выберите что хотите отредактировать</p>
+    <a href="{% url 'status_list' %}" class="btn btn-primary">Статусы</a>
+    <a href="{% url 'type_list' %}" class="btn btn-secondary">Типы</a>
+    <a href="{% url 'category_list' %}" class="btn btn-success">Категории</a>
+    <a href="{% url 'subcategory_list' %}" class="btn btn-info">Подкатегории</a>
+{% block extra_scripts %}
+{% endblock %}
+{% endblock %}

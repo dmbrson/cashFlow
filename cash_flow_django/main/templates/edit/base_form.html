@@ -1,0 +1,15 @@
+{% extends "main/base.html" %}
+
+{% block title %}{{ model_name }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">{% if object.pk %}Редактировать {{ model_name|lower }}{% else %}Добавить {{ model_name|lower }}{% endif %}</h1>
+<form method="post" class="card p-4 shadow-sm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url list_url %}" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+{% endblock %}

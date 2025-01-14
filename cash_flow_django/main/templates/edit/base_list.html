@@ -1,0 +1,46 @@
+{% extends "main/base.html" %}
+{% load custom_filters %}
+
+{% block title %}{{ model_name }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">{{ model_name }}</h1>
+<a href="{% url create_url %}" class="btn btn-success mb-3">
+    <i class="fas fa-plus-circle"></i> Добавить {{ model_name|lower }}
+</a>
+<table class="table table-striped ">
+    <thead>
+        <tr>
+            <th>Название</th>
+            {% if has_related %}
+                {% for field in related_fields %}
+                    <th>{{ field.label }}</th>
+                {% endfor %}
+            {% endif %}
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in objects %}
+        <tr>
+            <td>{{ object.name }}</td>
+            {% if has_related %}
+                {% for field in related_fields %}
+                    <td>{{ object|attr:field.name }}</td>
+                {% endfor %}
+            {% endif %}
+            <td>
+                <a href="{% url update_url object.pk %}" class="btn btn-warning btn-sm">Редактировать</a>
+                <a href="{% url delete_url object.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Нет данных для отображения.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% block extra_scripts %}
+{% endblock %}
+{% endblock %}
